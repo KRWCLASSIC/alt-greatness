@@ -59,7 +59,7 @@ if (gradle.startParameter.taskNames.any { it.contains("modrinth") }) {
             val verParts = versionStr.split('.').map { it.toInt() } + listOf(0)
             val mcVersion = verParts[0] * 10000 + verParts[1] * 100 + verParts[2]
             val prettyRange = when (mcVersion) {
-                11605 -> "1.16.X"
+                11605 -> "1.14-1.16.5"
                 11701 -> "1.17.X"
                 11802 -> "1.18.X"
                 11902 -> "1.19.0-1.19.2"

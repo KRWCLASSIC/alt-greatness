@@ -157,7 +157,7 @@ dependencies {
 }
 
 val fabricMcVersionRange = when (modPlatform.mcVersion) {
-    11605 -> ">=1.16 <=1.16.5"
+    11605 -> ">=1.14 <=1.16.5"
     11701 -> ">=1.17 <=1.17.1"
     11802 -> ">=1.18 <=1.18.2"
     11902 -> ">=1.19 <=1.19.2"
@@ -168,7 +168,7 @@ val fabricMcVersionRange = when (modPlatform.mcVersion) {
 }
 
 val forgeMcVersionRange = when (modPlatform.mcVersion) {
-    11605 -> "[1.16,1.16.5]"
+    11605 -> "[1.14,1.16.5]"
     11701 -> "[1.17,1.17.1]"
     11802 -> "[1.18,1.18.2]"
     11902 -> "[1.19,1.19.2]"
@@ -179,7 +179,7 @@ val forgeMcVersionRange = when (modPlatform.mcVersion) {
 }
 
 val prettyVersionRange = when (modPlatform.mcVersion) {
-    11605 -> "1.16.X"
+    11605 -> "1.14-1.16.5"
     11701 -> "1.17.X"
     11802 -> "1.18.X"
     11902 -> "1.19.0-1.19.2"
@@ -254,7 +254,7 @@ tasks.withType<com.modrinth.minotaur.TaskModrinthUpload>().configureEach {
 }
 
 val modrinthMcVersions = when (modPlatform.mcVersion) {
-    11605 -> listOf("1.16", "1.16.1", "1.16.2", "1.16.3", "1.16.4", "1.16.5")
+    11605 -> listOf("1.14", "1.14.1", "1.14.2", "1.14.3", "1.14.4", "1.15", "1.15.1", "1.15.2", "1.16", "1.16.1", "1.16.2", "1.16.3", "1.16.4", "1.16.5")
     11701 -> listOf("1.17", "1.17.1")
     11802 -> listOf("1.18", "1.18.1", "1.18.2")
     11902 -> listOf("1.19", "1.19.1", "1.19.2")
