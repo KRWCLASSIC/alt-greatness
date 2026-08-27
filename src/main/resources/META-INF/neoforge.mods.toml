@@ -1,0 +1,24 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+issueTrackerURL = "https://github.com/MikolajKolek/fix-alt-gr/issues"
+license = "LGPL-3.0-only"
+
+[[mods]]
+modId = "fixaltgr"
+version = "${file.jarVersion}"
+displayName = "${name}"
+authors = "${authors}"
+displayURL = "https://modrinth.com/mod/fix-alt-gr"
+description = '''
+${description}
+'''
+logoFile = "assets/fixaltgr/icon.png"
+
+[[dependencies.fixaltgr]]
+    modId="minecraft"
+    type="required"
+    versionRange="${mcVersionForge}"
+[[dependencies.fixaltgr]]
+    modId="architectury"
+    type="required"
+    versionRange="*"
