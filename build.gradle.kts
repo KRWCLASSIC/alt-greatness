@@ -109,9 +109,6 @@ dependencies {
     val archVersion = when (modPlatform.mcVersion) {
         11605 -> "1.32.68"
         11701 -> "2.10.12"
-        11802 -> "4.11.93"
-        11902 -> "6.5.85"
-        11904 -> "8.2.91"
         12001 -> "9.2.14"
         12101 -> "13.0.8"
         else -> error("No arch version defined for ${modPlatform.mcVersion}")
@@ -125,9 +122,6 @@ dependencies {
         val fabricApiVersion = when (modPlatform.mcVersion) {
             11605 -> "0.42.0+1.16"
             11701 -> "0.46.1+1.17"
-            11802 -> "0.76.0+1.18.2"
-            11902 -> "0.77.0+1.19.2"
-            11904 -> "0.81.1+1.19.4"
             12001 -> "0.92.2+1.20.1"
             12101 -> "0.104.0+1.21.1"
             else -> error("No fabric api version defined")
@@ -139,11 +133,7 @@ dependencies {
         val forgeVersion = when (modPlatform.mcVersion) {
             11605 -> "36.2.39"
             11701 -> "37.1.1"
-            11802 -> "40.2.0"
-            11902 -> "43.3.0"
-            11904 -> "45.3.0"
             12001 -> "47.1.3"
-            12101 -> "52.0.2"
             else -> error("No forge version defined for ${modPlatform.mcVersion}")
         }
         "forge"("net.minecraftforge:forge:${modPlatform.mcVersionStr}-$forgeVersion")
@@ -159,33 +149,24 @@ dependencies {
 val fabricMcVersionRange = when (modPlatform.mcVersion) {
     11605 -> ">=1.14 <=1.16.5"
     11701 -> ">=1.17 <=1.17.1"
-    11802 -> ">=1.18 <=1.18.2"
-    11902 -> ">=1.19 <=1.19.2"
-    11904 -> ">=1.19.3 <=1.19.4"
-    12001 -> ">=1.20 <=1.20.1"
-    12101 -> ">=1.21 <1.22"
+    12001 -> ">=1.18 <=1.20.4"
+    12101 -> ">=1.20.5 <1.22"
     else -> error("No supported fabric version range defined for ${modPlatform.mcVersion}")
 }
 
 val forgeMcVersionRange = when (modPlatform.mcVersion) {
     11605 -> "[1.14,1.16.5]"
     11701 -> "[1.17,1.17.1]"
-    11802 -> "[1.18,1.18.2]"
-    11902 -> "[1.19,1.19.2]"
-    11904 -> "[1.19.3,1.19.4]"
-    12001 -> "[1.20,1.20.1]"
-    12101 -> "[1.21,1.22)"
+    12001 -> "[1.18,1.20.4]"
+    12101 -> "[1.20.5,1.22)"
     else -> error("No supported forge version range defined for ${modPlatform.mcVersion}")
 }
 
 val prettyVersionRange = when (modPlatform.mcVersion) {
     11605 -> "1.14-1.16.5"
     11701 -> "1.17.X"
-    11802 -> "1.18.X"
-    11902 -> "1.19.0-1.19.2"
-    11904 -> "1.19.3-1.19.4"
-    12001 -> "1.20-1.20.1"
-    12101 -> "1.21.X"
+    12001 -> "1.18-1.20.4"
+    12101 -> "1.20.5-1.21.X"
     else -> error("No pretty version defined for ${modPlatform.mcVersion}")
 }
 
@@ -239,8 +220,9 @@ tasks {
     }
 
     register<Copy>("copyJar") {
+        dependsOn(remapJar)
         File("${project.rootDir}/jars").mkdir()
-        from(remapJar.get().archiveFile)
+        from(remapJar.flatMap { it.archiveFile })
         into("${project.rootDir}/jars")
         rename { _ -> "${mod_id}-${prettyVersionRange}-${modPlatform.loaderStr}-${mod_version}.jar" }
     }
@@ -256,11 +238,8 @@ tasks.withType<com.modrinth.minotaur.TaskModrinthUpload>().configureEach {
 val modrinthMcVersions = when (modPlatform.mcVersion) {
     11605 -> listOf("1.14", "1.14.1", "1.14.2", "1.14.3", "1.14.4", "1.15", "1.15.1", "1.15.2", "1.16", "1.16.1", "1.16.2", "1.16.3", "1.16.4", "1.16.5")
     11701 -> listOf("1.17", "1.17.1")
-    11802 -> listOf("1.18", "1.18.1", "1.18.2")
-    11902 -> listOf("1.19", "1.19.1", "1.19.2")
-    11904 -> listOf("1.19.3", "1.19.4")
-    12001 -> listOf("1.20", "1.20.1")
-    12101 -> listOf("1.21", "1.21.1", "1.21.2", "1.21.3", "1.21.4")
+    12001 -> listOf("1.18", "1.18.1", "1.18.2", "1.19", "1.19.1", "1.19.2", "1.19.3", "1.19.4", "1.20", "1.20.1", "1.20.2", "1.20.3", "1.20.4")
+    12101 -> listOf("1.20.5", "1.20.6", "1.21", "1.21.1", "1.21.2", "1.21.3", "1.21.4")
     else -> listOf(modPlatform.mcVersionStr)
 }
 

@@ -6,7 +6,8 @@
   "description": "${description}",
   "authors": [
     "KRW_CLASSIC",
-    "Mikolaj_Kolek"
+    "Mikolaj_Kolek",
+    "renwixx"
   ],
   "contact": {
     "homepage": "https://modrinth.com/mod/fix-alt-gr",

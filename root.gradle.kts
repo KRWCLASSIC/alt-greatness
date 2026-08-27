@@ -61,11 +61,8 @@ if (gradle.startParameter.taskNames.any { it.contains("modrinth") }) {
             val prettyRange = when (mcVersion) {
                 11605 -> "1.14-1.16.5"
                 11701 -> "1.17.X"
-                11802 -> "1.18.X"
-                11902 -> "1.19.0-1.19.2"
-                11904 -> "1.19.3-1.19.4"
-                12001 -> "1.20-1.20.1"
-                12101 -> "1.21.X"
+                12001 -> "1.18-1.20.4"
+                12101 -> "1.20.5-1.21.X"
                 else -> versionStr
             }
             val versionName = "Fix Alt Gr $modVersion $loaderCap $prettyRange"
@@ -116,26 +113,8 @@ preprocess {
     val forge12001 = createNode("1.20.1-forge", 12001, "mojmap")
     forge12001.link(fabric12001)
 
-    val fabric11904 = createNode("1.19.4-fabric", 11904, "mojmap")
-    fabric11904.link(fabric12001)
-
-    val forge11904 = createNode("1.19.4-forge", 11904, "mojmap")
-    forge11904.link(fabric11904)
-
-    val fabric11902 = createNode("1.19.2-fabric", 11902, "mojmap")
-    fabric11902.link(fabric11904)
-
-    val forge11902 = createNode("1.19.2-forge", 11902, "mojmap")
-    forge11902.link(fabric11902)
-
-    val fabric11802 = createNode("1.18.2-fabric", 11802, "mojmap")
-    fabric11802.link(fabric11902)
-
-    val forge11802 = createNode("1.18.2-forge", 11802, "mojmap")
-    forge11802.link(fabric11802)
-
     val fabric11701 = createNode("1.17.1-fabric", 11701, "mojmap")
-    fabric11701.link(fabric11802)
+    fabric11701.link(fabric12001)
 
     val forge11701 = createNode("1.17.1-forge", 11701, "mojmap")
     forge11701.link(fabric11701)
