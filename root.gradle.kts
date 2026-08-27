@@ -45,7 +45,7 @@ if (gradle.startParameter.taskNames.any { it.contains("modrinth") }) {
 
     val panel = javax.swing.JPanel()
     panel.layout = javax.swing.BoxLayout(panel, javax.swing.BoxLayout.Y_AXIS)
-    panel.add(javax.swing.JLabel("Ready to upload JARs to Modrinth project 'fix-alt-gr'"))
+    panel.add(javax.swing.JLabel("Ready to upload JARs to Modrinth project 'alt-greatness'"))
     panel.add(javax.swing.JLabel("Release Type: $type"))
     panel.add(javax.swing.Box.createRigidArea(java.awt.Dimension(0, 10)))
     panel.add(javax.swing.JLabel("Select JARs to upload (shows Modrinth Name & File):"))
@@ -62,10 +62,11 @@ if (gradle.startParameter.taskNames.any { it.contains("modrinth") }) {
                 11605 -> "1.14-1.16.5"
                 11701 -> "1.17.X"
                 12001 -> "1.18-1.20.4"
-                12101 -> "1.20.5-1.21.X"
+                12101 -> "1.20.5-26.X"
                 else -> versionStr
             }
-            val versionName = "Fix Alt Gr $modVersion $loaderCap $prettyRange"
+            val modName = project.findProperty("mod_name")?.toString() ?: "Alt Gr(eatness)"
+            val versionName = "$modName $modVersion $loaderCap $prettyRange"
             val versionNumber = "$modVersion-$loader-$prettyRange"
             val jarFileName = "fixaltgr-$prettyRange-$loader-$modVersion.jar"
             val cb = javax.swing.JCheckBox("$versionName  |  [File: $jarFileName, Ver: $versionNumber]")

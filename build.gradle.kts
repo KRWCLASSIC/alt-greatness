@@ -105,17 +105,6 @@ dependencies {
     implementation(jnativehookDep)
     shade(jnativehookDep)
 
-    val archGroup = if (modPlatform.mcVersion >= 11700) "dev.architectury" else "me.shedaniel"
-    val archVersion = when (modPlatform.mcVersion) {
-        11605 -> "1.32.68"
-        11701 -> "2.10.12"
-        12001 -> "9.2.14"
-        12101 -> "13.0.8"
-        else -> error("No arch version defined for ${modPlatform.mcVersion}")
-    }
-
-    modImplementation("$archGroup:architectury-${modPlatform.loaderStr}:$archVersion")
-
     if (modPlatform.isFabric) {
         modImplementation("net.fabricmc:fabric-loader:0.15.6")
 
@@ -150,7 +139,7 @@ val fabricMcVersionRange = when (modPlatform.mcVersion) {
     11605 -> ">=1.14 <=1.16.5"
     11701 -> ">=1.17 <=1.17.1"
     12001 -> ">=1.18 <=1.20.4"
-    12101 -> ">=1.20.5 <1.22"
+    12101 -> ">=1.20.5 <27.0"
     else -> error("No supported fabric version range defined for ${modPlatform.mcVersion}")
 }
 
@@ -158,7 +147,7 @@ val forgeMcVersionRange = when (modPlatform.mcVersion) {
     11605 -> "[1.14,1.16.5]"
     11701 -> "[1.17,1.17.1]"
     12001 -> "[1.18,1.20.4]"
-    12101 -> "[1.20.5,1.22)"
+    12101 -> "[1.20.5,27.0)"
     else -> error("No supported forge version range defined for ${modPlatform.mcVersion}")
 }
 
@@ -166,7 +155,7 @@ val prettyVersionRange = when (modPlatform.mcVersion) {
     11605 -> "1.14-1.16.5"
     11701 -> "1.17.X"
     12001 -> "1.18-1.20.4"
-    12101 -> "1.20.5-1.21.X"
+    12101 -> "1.20.5-26.X"
     else -> error("No pretty version defined for ${modPlatform.mcVersion}")
 }
 
@@ -239,14 +228,14 @@ val modrinthMcVersions = when (modPlatform.mcVersion) {
     11605 -> listOf("1.14", "1.14.1", "1.14.2", "1.14.3", "1.14.4", "1.15", "1.15.1", "1.15.2", "1.16", "1.16.1", "1.16.2", "1.16.3", "1.16.4", "1.16.5")
     11701 -> listOf("1.17", "1.17.1")
     12001 -> listOf("1.18", "1.18.1", "1.18.2", "1.19", "1.19.1", "1.19.2", "1.19.3", "1.19.4", "1.20", "1.20.1", "1.20.2", "1.20.3", "1.20.4")
-    12101 -> listOf("1.20.5", "1.20.6", "1.21", "1.21.1", "1.21.2", "1.21.3", "1.21.4")
+    12101 -> listOf("1.20.5", "1.20.6", "1.21", "1.21.1", "1.21.2", "1.21.3", "1.21.4", "26.1", "26.1.1", "26.1.2", "26.2", "26.3")
     else -> listOf(modPlatform.mcVersionStr)
 }
 
 modrinth {
     token.set(rootProject.extra["modrinthToken"].toString())
-    projectId.set("fix-alt-gr")
-    versionName.set("Fix Alt Gr $mod_version ${modPlatform.loader.name} $prettyVersionRange")
+    projectId.set("alt-greatness")
+    versionName.set("$mod_name $mod_version ${modPlatform.loader.name} $prettyVersionRange")
     versionNumber.set("$mod_version-${modPlatform.loaderStr}-$prettyVersionRange")
     versionType.set(rootProject.extra["modrinthReleaseType"].toString())
     changelog.set(rootProject.extra["modrinthChangelog"].toString())
@@ -254,10 +243,6 @@ modrinth {
 
     gameVersions.addAll(modrinthMcVersions)
     loaders.add(modPlatform.loaderStr)
-
-    dependencies {
-        required.project("architectury-api")
-    }
 }
 
 data class Platform(

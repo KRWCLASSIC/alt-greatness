@@ -2,10 +2,14 @@ package com.mikolajkolek.fixaltgr;
 
 import com.github.kwhat.jnativehook.GlobalScreen;
 import com.github.kwhat.jnativehook.NativeHookException;
-//#if MC >= 11700
-import dev.architectury.platform.Platform;
-//#else
-//$$ import me.shedaniel.architectury.platform.Platform;
+//#if FABRIC
+import net.fabricmc.loader.api.FabricLoader;
+//#endif
+//#if FORGE
+//$$ import net.minecraftforge.fml.ModList;
+//#endif
+//#if NEOFORGE
+//$$ import net.neoforged.fml.ModList;
 //#endif
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,7 +26,15 @@ public class FixAltGr {
         initialized = true;
 
         try {
-            if (Platform.isModLoaded("axiom")) {
+            boolean isAxiom = false;
+//#if FABRIC
+            isAxiom = FabricLoader.getInstance().isModLoaded("axiom");
+//#endif
+//#if FORGE || NEOFORGE
+//$$         isAxiom = ModList.get() != null && ModList.get().isLoaded("axiom");
+//#endif
+
+            if (isAxiom) {
                 LOGGER.warn("FixAltGr detected that Axiom is loaded. This means that FixAltGr has to disable parts of its functionality, possibly causing it to work worse.");
                 axiomLoaded = true;
             }

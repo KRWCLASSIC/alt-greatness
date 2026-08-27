@@ -10,9 +10,9 @@
     "renwixx"
   ],
   "contact": {
-    "homepage": "https://modrinth.com/mod/fix-alt-gr",
-    "issues": "https://github.com/MikolajKolek/fix-alt-gr/issues",
-    "sources": "https://github.com/MikolajKolek/fix-alt-gr"
+    "homepage": "https://modrinth.com/mod/alt-greatness",
+    "issues": "https://github.com/KRWCLASSIC/alt-greatness/issues",
+    "sources": "https://github.com/KRWCLASSIC/alt-greatness"
   },
   "license": "LGPL-3.0-only",
   "icon": "assets/fixaltgr/icon.png",
@@ -27,8 +27,7 @@
     "fixaltgr-common.mixins.json"
   ],
   "depends": {
-    "fabric": "*",
-    "minecraft": "${mcVersionFabric}",
-    "architectury": "*"
+    "fabricloader": "*",
+    "minecraft": "${mcVersionFabric}"
   }
 }
