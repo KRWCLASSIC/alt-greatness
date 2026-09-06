@@ -77,6 +77,23 @@ if (gradle.startParameter.taskNames.any { it.contains("modrinth") }) {
     }
 
     panel.add(javax.swing.Box.createRigidArea(java.awt.Dimension(0, 10)))
+    panel.add(javax.swing.JLabel("Modrinth Environment Setting:"))
+    val envOptions = arrayOf(
+        "Client-side only",
+        "Client and server (optional on server)",
+        "Client and server (optional on both, works best when installed on both sides)",
+        "Client and server (required on both)",
+        "Client and server (optional on client)",
+        "Server-side only",
+        "Don't change / Keep current"
+    )
+    val envBox = javax.swing.JComboBox(envOptions)
+    envBox.selectedItem = "Client-side only"
+    val updateEnvCb = javax.swing.JCheckBox("Update Modrinth project environment to selected option", true)
+    panel.add(updateEnvCb)
+    panel.add(envBox)
+
+    panel.add(javax.swing.Box.createRigidArea(java.awt.Dimension(0, 10)))
     panel.add(javax.swing.JLabel("Changelog:"))
     val clArea = javax.swing.JTextArea(6, 40)
     clArea.text = changelogInput
@@ -94,6 +111,39 @@ if (gradle.startParameter.taskNames.any { it.contains("modrinth") }) {
 
     if (finalConfirm != javax.swing.JOptionPane.OK_OPTION) {
         throw GradleException("Modrinth upload cancelled by user.")
+    }
+
+    if (updateEnvCb.isSelected && envBox.selectedItem != "Don't change / Keep current") {
+        val selectedEnv = envBox.selectedItem?.toString() ?: ""
+        val (clientSide, serverSide) = when (selectedEnv) {
+            "Client-side only" -> "required" to "unsupported"
+            "Client and server (optional on server)" -> "required" to "optional"
+            "Client and server (optional on both, works best when installed on both sides)" -> "optional" to "optional"
+            "Client and server (required on both)" -> "required" to "required"
+            "Client and server (optional on client)" -> "optional" to "required"
+            "Server-side only" -> "unsupported" to "required"
+            else -> null to null
+        }
+        if (clientSide != null && serverSide != null) {
+            try {
+                val modrinthProjId = "alt-greatness"
+                val client = java.net.http.HttpClient.newHttpClient()
+                val req = java.net.http.HttpRequest.newBuilder()
+                    .uri(java.net.URI.create("https://api.modrinth.com/v2/project/$modrinthProjId"))
+                    .header("Authorization", tokenVal)
+                    .header("Content-Type", "application/json")
+                    .method("PATCH", java.net.http.HttpRequest.BodyPublishers.ofString("""{"client_side":"$clientSide","server_side":"$serverSide"}"""))
+                    .build()
+                val resp = client.send(req, java.net.http.HttpResponse.BodyHandlers.ofString())
+                if (resp.statusCode() in 200..299) {
+                    println("[Modrinth] Successfully updated project environment to '$selectedEnv'.")
+                } else {
+                    println("[Modrinth] Environment update response (${resp.statusCode()}): ${resp.body()}")
+                }
+            } catch (e: Exception) {
+                println("[Modrinth] Failed to update project environment: ${e.message}")
+            }
+        }
     }
 
     val skipped = checkBoxes.filter { !it.value.isSelected }.map { it.key }
